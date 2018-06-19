@@ -24,7 +24,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "head_pose_cli");
 
   ROS_INFO("Starting head_pose_cli application ...");
- 
+
   // Precondition: Valid clock
   ros::NodeHandle nh;
   if (!ros::Time::waitForValid(ros::WallDuration(10.0))) // NOTE: Important when using simulated clock

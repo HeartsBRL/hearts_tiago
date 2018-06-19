@@ -24,7 +24,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "head_pose_cli");
 
   ROS_INFO("Starting head_pose_cli application ...");
- 
+
   // Precondition: Valid clock
   ros::NodeHandle nh;
   if (!ros::Time::waitForValid(ros::WallDuration(10.0))) // NOTE: Important when using simulated clock
@@ -58,12 +58,12 @@ int main(int argc, char** argv)
 
 	  if ((!increase)&&(srv.request.target_yaw < -60))
 		  increase = true;
-	  
+
 	  if (increase)
-		  srv.request.target_yaw += step; 
+		  srv.request.target_yaw += step;
 	  else
-		  srv.request.target_yaw -= step; 
-	  
+		  srv.request.target_yaw -= step;
+
 	  client.call(srv);
 
 	  ros::spinOnce();

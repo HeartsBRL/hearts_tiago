@@ -3,9 +3,7 @@ project(hearts_head_pose)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  
   actionlib
-  
   hearts_nav_msgs
   sensor_msgs
   control_msgs
@@ -14,22 +12,28 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package()
 
-include_directories(SYSTEM 
+include_directories(SYSTEM
   include
+  hearts_nav_msgs
   ${catkin_INCLUDE_DIRS}
 )
+
+#add_dependencies(hearts_nav_msgs ${catkin_EXPORTED_TARGETS})
 
 #add_library(${PROJECT_NAME})
 #target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 add_executable(head_pose_srv src/head_pose_srv.cpp )
 target_link_libraries(head_pose_srv ${catkin_LIBRARIES})
+add_dependencies(head_pose_srv hearts_nav_msgs_gencpp)
 
 add_executable(single_pose_cli src/single_pose_cli.cpp )
 target_link_libraries(single_pose_cli ${catkin_LIBRARIES})
+add_dependencies(single_pose_cli hearts_nav_msgs_gencpp)
 
 add_executable(loop_pose_cli src/loop_pose_cli.cpp )
 target_link_libraries(loop_pose_cli ${catkin_LIBRARIES})
+add_dependencies(loop_pose_cli hearts_nav_msgs_gencpp)
 
 ### INSTALL ###
 

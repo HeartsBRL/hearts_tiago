@@ -57,7 +57,7 @@ void createPointHeadClient(PointHeadClientPtr& actionClient)
 }
 
 void headStatusCallback(const control_msgs::JointTrajectoryControllerState& hstatus)
-{  
+{
   trajectory_msgs::JointTrajectoryPoint actualstatus = hstatus.actual;
   latestPoseStamp = hstatus.header.stamp;
 
@@ -87,12 +87,12 @@ bool srvCallback(hearts_nav_msgs::SetHeadPose::Request &req, hearts_nav_msgs::Se
   double x, y, z;
   x = sin(req.target_yaw*PI/180 + angle_yaw);
   y = 0;
-  z = cos(req.target_yaw*PI/180 + angle_yaw);   
+  z = cos(req.target_yaw*PI/180 + angle_yaw);
 
   //Pitch + Yaw
   pointStamped.point.x = 0 + x;
   pointStamped.point.y = sin(req.target_pitch*PI/180 + angle_pitch) + y;
-  pointStamped.point.z = cos(req.target_pitch*PI/180 + angle_pitch) + z;   
+  pointStamped.point.z = cos(req.target_pitch*PI/180 + angle_pitch) + z;
 
   goal.target = pointStamped;
 
@@ -102,7 +102,7 @@ bool srvCallback(hearts_nav_msgs::SetHeadPose::Request &req, hearts_nav_msgs::Se
   res.current_yaw = angle_yaw*180/PI;
   res.current_pitch = angle_pitch*180/PI;
   //ROS_INFO("Sent: %lf, %lf current: %lf, %lf.", req.target_yaw, req.target_pitch, angle_yaw*180/PI, angle_pitch*180/PI);
-  
+
   if ( (fabs(req.target_yaw + angle_yaw*180/PI) > 5) || (fabs(req.target_pitch + angle_pitch*180/PI) > 5) )
 	  return false;
 
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "head_pose_srv");
 
   ROS_INFO("Starting head_pose_srv application ...");
- 
+
   // Precondition: Valid clock
   ros::NodeHandle nh, nh2;
   if (!ros::Time::waitForValid(ros::WallDuration(10.0))) // NOTE: Important when using simulated clock
@@ -134,10 +134,10 @@ int main(int argc, char** argv)
 
   ROS_INFO_STREAM("Subscribing to " << headStatusTopic << " ...");
   ros::Subscriber subhead = nh2.subscribe(headStatusTopic, 1, headStatusCallback);
-  
+
   //enter a loop that processes ROS callbacks. Press CTRL+C to exit the loop
   ros::Rate loop_rate(5);
-  
+
   ros::spin();
 
   return EXIT_SUCCESS;
